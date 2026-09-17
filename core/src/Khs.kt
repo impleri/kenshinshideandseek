@@ -338,23 +338,9 @@ class Khs(val shim: KhsShim) {
         return shim.createWorld(worldName, getWorldType(worldName))
     }
 
-    fun runPregameCommandsFor(players: List<Player>) {
+    fun runPregameCommandsFor(player: Player) {
         if (config.enablePregameCommands) {
             config.pregameCommands.forEach { command ->
-                players.forEach { player ->
-                    shim.runInConsole(
-                        command
-                            .replace("{player}", player.name)
-                            .replace("{playerId}", player.uuid.toString()),
-                    )
-                }
-            }
-        }
-    }
-
-    fun runPostgameCommandsFor(player: Player) {
-        if (config.enablePostgameCommands) {
-            config.postgameCommands.forEach { command ->
                 shim.runInConsole(
                     command
                         .replace("{player}", player.name)
@@ -364,9 +350,23 @@ class Khs(val shim: KhsShim) {
         }
     }
 
-    fun runPostgameWinCommandsFor(player: Player) {
+    fun runPostgameCommandsFor(playerId: UUID) {
         if (config.enablePostgameCommands) {
             config.postgameCommands.forEach { command ->
+                val player = shim.getPlayer(playerId)
+                shim.runInConsole(
+                    command
+                        .replace("{player}", player.name)
+                        .replace("{playerId}", player.uuid.toString()),
+                )
+            }
+        }
+    }
+
+    fun runPostgameWinCommandsFor(playerId: UUID) {
+        if (config.enablePostgameCommands) {
+            config.postgameCommands.forEach { command ->
+                val player = shim.getPlayer(playerId)
                 shim.runInConsole(
                     command
                         .replace("{player}", player.name)
