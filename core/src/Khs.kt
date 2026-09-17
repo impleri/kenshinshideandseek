@@ -30,6 +30,7 @@ import cat.freya.khs.type.Effect
 import cat.freya.khs.type.Item
 import cat.freya.khs.type.Material
 import cat.freya.khs.world.MAP_SAVE_PREFIX
+import cat.freya.khs.world.Player
 import cat.freya.khs.world.World
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import java.net.URI
@@ -335,6 +336,44 @@ class Khs(val shim: KhsShim) {
         }
 
         return shim.createWorld(worldName, getWorldType(worldName))
+    }
+
+    fun runPregameCommandsFor(players: List<Player>) {
+        if (config.enablePregameCommands) {
+            config.pregameCommands.forEach { command ->
+                players.forEach { player ->
+                    shim.runInConsole(
+                        command
+                            .replace("{player}", player.name)
+                            .replace("{playerId}", player.uuid.toString()),
+                    )
+                }
+            }
+        }
+    }
+
+    fun runPostgameCommandsFor(player: Player) {
+        if (config.enablePostgameCommands) {
+            config.postgameCommands.forEach { command ->
+                shim.runInConsole(
+                    command
+                        .replace("{player}", player.name)
+                        .replace("{playerId}", player.uuid.toString()),
+                )
+            }
+        }
+    }
+
+    fun runPostgameWinCommandsFor(player: Player) {
+        if (config.enablePostgameCommands) {
+            config.postgameCommands.forEach { command ->
+                shim.runInConsole(
+                    command
+                        .replace("{player}", player.name)
+                        .replace("{playerId}", player.uuid.toString()),
+                )
+            }
+        }
     }
 
     inline fun <reified T : Any> fetchJson(url: String): T? {
