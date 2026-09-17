@@ -354,6 +354,11 @@ class Khs(val shim: KhsShim) {
         if (config.enablePostgameCommands) {
             config.postgameCommands.forEach { command ->
                 val player = shim.getPlayer(playerId)
+                if (player == null) {
+                    shim.logger.warning("Player $playerId not found when trying to run postgame commands")
+                    return
+                }
+
                 shim.runInConsole(
                     command
                         .replace("{player}", player.name)
@@ -367,6 +372,11 @@ class Khs(val shim: KhsShim) {
         if (config.enablePostgameCommands) {
             config.postgameCommands.forEach { command ->
                 val player = shim.getPlayer(playerId)
+                if (player == null) {
+                    shim.logger.warning("Player $playerId not found when trying to run postgame commands")
+                    return
+                }
+
                 shim.runInConsole(
                     command
                         .replace("{player}", player.name)
