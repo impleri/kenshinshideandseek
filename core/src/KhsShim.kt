@@ -142,9 +142,7 @@ interface KhsShim {
     /** Checks if the minecraft server is greater or equal to the given version */
     fun supports(vararg versions: Int): Boolean
 
-    /**
-     * Executes a command in the console
-     */
+    /** Executes a command in the console */
     fun runInConsole(command: String): Boolean
 }
 

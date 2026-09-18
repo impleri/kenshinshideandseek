@@ -274,14 +274,20 @@ data class KhsConfig(
     @Section("Pregame Commands")
     @Comment("When enabled, the plugin will execute the pregame commands for each player")
     var enablePregameCommands: Boolean = false,
-    @Comment("Commands to execute per player when the game starts. Use {player} for player name and {playerId} for their UUID")
+    @Comment(
+        "Commands to execute per player when the game starts. Use {player} for player name and {playerId} for their UUID"
+    )
     var pregameCommands: List<String> = listOf("eco give 5 {player}"),
     @Section("Postgame Commands")
     @Comment("When enabled, the plugin will execute the postgame commands for each player")
     var enablePostgameCommands: Boolean = false,
-    @Comment("Commands to execute per player when the game ends. Use {player} for player name and {playerId} for their UUID")
+    @Comment(
+        "Commands to execute per player when the game ends. Use {player} for player name and {playerId} for their UUID"
+    )
     var postgameCommands: List<String> = listOf("eco give 5 {player}"),
-    @Comment("Commands to execute per player on the winning team when the game ends. Use {player} for player name and {playerId} for their UUID")
+    @Comment(
+        "Commands to execute per player on the winning team when the game ends. Use {player} for player name and {playerId} for their UUID"
+    )
     var postgameWinnerCommands: List<String> = listOf("eco give 5 {player}"),
     // Auto Generated
     @Section("Auto Generated")

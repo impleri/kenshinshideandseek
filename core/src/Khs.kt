@@ -342,9 +342,7 @@ class Khs(val shim: KhsShim) {
         if (config.enablePregameCommands) {
             config.pregameCommands.forEach { command ->
                 shim.runInConsole(
-                    command
-                        .replace("{player}", player.name)
-                        .replace("{playerId}", player.uuid.toString()),
+                    command.replace("{player}", player.name).replace("{playerId}", player.uuid.toString())
                 )
             }
         }
@@ -360,9 +358,7 @@ class Khs(val shim: KhsShim) {
                 }
 
                 shim.runInConsole(
-                    command
-                        .replace("{player}", player.name)
-                        .replace("{playerId}", player.uuid.toString()),
+                    command.replace("{player}", player.name).replace("{playerId}", player.uuid.toString())
                 )
             }
         }
@@ -378,9 +374,7 @@ class Khs(val shim: KhsShim) {
                 }
 
                 shim.runInConsole(
-                    command
-                        .replace("{player}", player.name)
-                        .replace("{playerId}", player.uuid.toString()),
+                    command.replace("{player}", player.name).replace("{playerId}", player.uuid.toString())
                 )
             }
         }
