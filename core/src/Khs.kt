@@ -340,43 +340,33 @@ class Khs(val shim: KhsShim) {
 
     fun runPregameCommandsFor(player: Player) {
         if (config.enablePregameCommands) {
-            config.pregameCommands.forEach { command ->
-                shim.runInConsole(
-                    command.replace("{player}", player.name).replace("{playerId}", player.uuid.toString())
-                )
-            }
+            runCommands(player, config.pregameCommands)
         }
     }
 
     fun runPostgameCommandsFor(playerId: UUID) {
-        if (config.enablePostgameCommands) {
-            config.postgameCommands.forEach { command ->
-                val player = shim.getPlayer(playerId)
-                if (player == null) {
-                    shim.logger.warning("Player $playerId not found when trying to run postgame commands")
-                    return
-                }
-
-                shim.runInConsole(
-                    command.replace("{player}", player.name).replace("{playerId}", player.uuid.toString())
-                )
-            }
-        }
+        runPostgameCommands(playerId, config.postgameCommands)
     }
 
     fun runPostgameWinCommandsFor(playerId: UUID) {
-        if (config.enablePostgameCommands) {
-            config.postgameCommands.forEach { command ->
-                val player = shim.getPlayer(playerId)
-                if (player == null) {
-                    shim.logger.warning("Player $playerId not found when trying to run postgame commands")
-                    return
-                }
+        runPostgameCommands(playerId, config.postgameWinnerCommands)
+    }
 
-                shim.runInConsole(
-                    command.replace("{player}", player.name).replace("{playerId}", player.uuid.toString())
-                )
-            }
+    private fun runPostgameCommands(playerId: UUID, commands: List<String>): Unit {
+        val player = shim.getPlayer(playerId)
+        if (player == null) {
+            shim.logger.warning("Player $playerId not found when trying to run postgame commands")
+            return
+        }
+
+        if (config.enablePostgameCommands) {
+            runCommands(player, commands)
+        }
+    }
+
+    private fun runCommands(player: Player, commands: List<String>): Unit {
+        commands.forEach { command ->
+            shim.runInConsole(command.replace("{name}", player.name).replace("{uuid}", player.uuid.toString()))
         }
     }
 
