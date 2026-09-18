@@ -285,7 +285,9 @@ class Game(val plugin: Khs) {
                     loadHider(it)
                 }
 
-                plugin.runPregameCommandsFor(it)
+                if (plugin.config.enableGameLifecycleCommands) {
+                    plugin.runCommandsFor(it, plugin.config.pregameCommands)
+                }
             }
 
             // reset game state
@@ -340,10 +342,14 @@ class Game(val plugin: Khs) {
         // update last game win info
         if (hasWon) {
             lastWinners.put(uuid, team)
-            plugin.runPostgameWinCommandsFor(uuid)
+            if (plugin.config.enableGameLifecycleCommands) {
+                plugin.runCommandsFor(uuid, plugin.config.postgameWinnerCommands)
+            }
         } else {
             lastLoosers.put(uuid, team)
-            plugin.runPostgameCommandsFor(uuid)
+            if (plugin.config.enableGameLifecycleCommands) {
+                plugin.runCommandsFor(uuid, plugin.config.postgameLoserCommands)
+            }
         }
 
         // update database

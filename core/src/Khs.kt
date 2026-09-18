@@ -338,33 +338,18 @@ class Khs(val shim: KhsShim) {
         return shim.createWorld(worldName, getWorldType(worldName))
     }
 
-    fun runPregameCommandsFor(player: Player) {
-        if (config.enablePregameCommands) {
-            runCommands(player, config.pregameCommands)
-        }
-    }
-
-    fun runPostgameCommandsFor(playerId: UUID) {
-        runPostgameCommands(playerId, config.postgameCommands)
-    }
-
-    fun runPostgameWinCommandsFor(playerId: UUID) {
-        runPostgameCommands(playerId, config.postgameWinnerCommands)
-    }
-
-    private fun runPostgameCommands(playerId: UUID, commands: List<String>): Unit {
+    fun runCommandsFor(playerId: UUID, commands: List<String>): Unit {
         val player = shim.getPlayer(playerId)
+
         if (player == null) {
-            shim.logger.warning("Player $playerId not found when trying to run postgame commands")
+            shim.logger.warning("Player $playerId not found when trying to run commands")
             return
         }
 
-        if (config.enablePostgameCommands) {
-            runCommands(player, commands)
-        }
+        runCommandsFor(player, commands)
     }
 
-    private fun runCommands(player: Player, commands: List<String>): Unit {
+    fun runCommandsFor(player: Player, commands: List<String>): Unit {
         commands.forEach { command ->
             shim.runInConsole(command.replace("{name}", player.name).replace("{uuid}", player.uuid.toString()))
         }

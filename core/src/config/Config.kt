@@ -271,22 +271,21 @@ data class KhsConfig(
     var blockedCommands: List<String> = listOf("msg", "reply", "me", "kill"),
     @Comment("Don't allow players to interact with these blocks")
     var blockedInteracts: List<String> = listOf("FURNACE", "CRAFTING_TABLE", "ANVIL", "CHEST", "BARREL"),
-    @Section("Pregame Commands")
-    @Comment("When enabled, the plugin will execute the pregame commands for each player")
-    var enablePregameCommands: Boolean = false,
+    @Section("Game Lifecycle Commands")
+    @Comment("When enabled, the plugin will execute the commands for each player when the game starts and when it ends")
+    var enableGameLifecycleCommands: Boolean = false,
     @Comment(
         "Commands to execute per player when the game starts. Use {name} for player name and {uuid} for their UUID"
     )
     var pregameCommands: List<String> = listOf("eco give {name} 5"),
-    @Section("Postgame Commands")
-    @Comment("When enabled, the plugin will execute the postgame commands for each player")
-    var enablePostgameCommands: Boolean = false,
-    @Comment("Commands to execute per player when the game ends. Use {name} for player name and {uuid} for their UUID")
-    var postgameCommands: List<String> = listOf("eco give {name} 5"),
     @Comment(
         "Commands to execute per player on the winning team when the game ends. Use {name} for player name and {uuid} for their UUID"
     )
     var postgameWinnerCommands: List<String> = listOf("eco give {name} 5"),
+    @Comment(
+        "Commands to execute per player on the losing team when the game ends. Use {name} for player name and {uuid} for their UUID"
+    )
+    var postgameLoserCommands: List<String> = listOf("eco give {name} 5"),
     // Auto Generated
     @Section("Auto Generated")
     @Comment("Location where players are teleported to when they run (/hs leave).")
