@@ -179,6 +179,23 @@ data class SeekerPingConfig(
     @Comment("The sounds that players will hear") var sounds: SeekerPingConfigSounds = SeekerPingConfigSounds(),
 )
 
+data class CommandHooksConfig(
+    @Comment("When enabled, the plugin will execute the commands for each player when the game starts and when it ends")
+    var enable: Boolean = false,
+    @Comment(
+        "Commands to execute when the game starts for every player. Use {name} for player name and {uuid} for their UUID"
+    )
+    var onGameStart: List<String> = listOf(""),
+    @Comment(
+        "Commands to execute when the game ends for every player on the winning team. Use {name} for player name and {uuid} for their UUID"
+    )
+    var onGameEndWin: List<String> = listOf(""),
+    @Comment(
+        "Commands to execute when the game ends for every player on the losing team. Use {name} for player name and {uuid} for their UUID"
+    )
+    var onGameEndLose: List<String> = listOf(""),
+)
+
 data class KhsConfig(
     // General
     @Section("General")
@@ -271,21 +288,9 @@ data class KhsConfig(
     var blockedCommands: List<String> = listOf("msg", "reply", "me", "kill"),
     @Comment("Don't allow players to interact with these blocks")
     var blockedInteracts: List<String> = listOf("FURNACE", "CRAFTING_TABLE", "ANVIL", "CHEST", "BARREL"),
-    @Section("Game Lifecycle Commands")
-    @Comment("When enabled, the plugin will execute the commands for each player when the game starts and when it ends")
-    var enableGameLifecycleCommands: Boolean = false,
-    @Comment(
-        "Commands to execute per player when the game starts. Use {name} for player name and {uuid} for their UUID"
-    )
-    var pregameCommands: List<String> = listOf("eco give {name} 5"),
-    @Comment(
-        "Commands to execute per player on the winning team when the game ends. Use {name} for player name and {uuid} for their UUID"
-    )
-    var postgameWinnerCommands: List<String> = listOf("eco give {name} 5"),
-    @Comment(
-        "Commands to execute per player on the losing team when the game ends. Use {name} for player name and {uuid} for their UUID"
-    )
-    var postgameLoserCommands: List<String> = listOf("eco give {name} 5"),
+    @Section("Command Hooks")
+    @Comment("Trigger custom commands after game events")
+    var commandHooks: CommandHooksConfig = CommandHooksConfig(),
     // Auto Generated
     @Section("Auto Generated")
     @Comment("Location where players are teleported to when they run (/hs leave).")

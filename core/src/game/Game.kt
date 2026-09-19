@@ -285,8 +285,8 @@ class Game(val plugin: Khs) {
                     loadHider(it)
                 }
 
-                if (plugin.config.enableGameLifecycleCommands) {
-                    plugin.runCommandsFor(it, plugin.config.pregameCommands)
+                if (plugin.config.commandHooks.enable) {
+                    plugin.runCommandsFor(it, plugin.config.commandHooks.onGameStart)
                 }
             }
 
@@ -342,13 +342,13 @@ class Game(val plugin: Khs) {
         // update last game win info
         if (hasWon) {
             lastWinners.put(uuid, team)
-            if (plugin.config.enableGameLifecycleCommands) {
-                plugin.runCommandsFor(uuid, plugin.config.postgameWinnerCommands)
+            if (plugin.config.commandHooks.enable) {
+                plugin.runCommandsFor(uuid, plugin.config.commandHooks.onGameEndWin)
             }
         } else {
             lastLoosers.put(uuid, team)
-            if (plugin.config.enableGameLifecycleCommands) {
-                plugin.runCommandsFor(uuid, plugin.config.postgameLoserCommands)
+            if (plugin.config.commandHooks.enable) {
+                plugin.runCommandsFor(uuid, plugin.config.commandHooks.onGameEndLose)
             }
         }
 
